@@ -1,41 +1,43 @@
-# phone-flipper
+# Phone Flipper
 
-Phone Flipper is a proof-of-concept Android app plus hardware bridge for Flipper Zero-like workflows using a phone and external radio module.
+این پروژه یک نمونه‌ی عملی و واقع‌گرایانه برای ساخت یک اپ اندروید است که با گوشی و سخت‌افزار جانبی، قابلیت‌های مشابه فلیپر زیرو را ارائه می‌دهد.
 
-Core idea
-- Detect which features the Android phone actually exposes: NFC, HCE, IR, Bluetooth/BLE, USB-OTG, camera, and general RF availability.
-- Use phone-native features when possible.
-- For Sub-GHz RF (315/433/868/915 MHz), use an external module (CC1101, SDR, or a dedicated radio bridge), because most phones do not expose hardware for direct RF transmission in those bands.
-- Connect the phone to the external module via BLE or USB-OTG and send commands/packets from the app.
+## ایده اصلی
 
-What this repo currently includes
-- Android app skeleton to detect phone features
-- Device capability report screen
-- Documentation about hardware limits and architecture
-- ESP32 firmware stub for a radio bridge
+- گوشی اندروید در کنار ماژول خارجی می‌تواند بسیاری از قابلیت‌های فلیپر زیرو را شبیه‌سازی کند.
+- برخی قابلیت‌ها را گوشی خودش دارد: NFC، IR، Bluetooth/BLE، USB-OTG و سنسورها.
+- اما برای RF/Sub-GHz مانند 315/433/868/915 MHz، اکثر گوشی‌ها این سخت‌افزار را ندارند و نیاز به ماژول جانبی دارند.
+- بنابراین معماری درست این است:
+  - گوشی: رابط کاربری، تشخیص سخت‌افزار و کنترل
+  - ماژول خارجی: ارسال واقعی سیگنال‌های RF
 
-Project structure
-- `app/` — Android app (Kotlin)
-- `esp32-firmware/` — ESP32 code stub for radio bridge and BLE/UART communication
-- `docs/` — technical notes and wiring instructions
-- `README.md` — project overview
+## ساختار پروژه
 
-Important limitation
-- A normal Android phone does not provide reliable or standard direct Sub-GHz TX support for 315/433/868/915 MHz.
-- For those functions, the phone must delegate to an external module or hardware bridge.
-- NFC / IR / BLE / USB-OTG are generally more practical and implementable on Android.
+- `app/` : پروژه اندروید
+- `esp32-firmware/` : کد ماژول ESP32 برای ارتباط BLE/UART و کنترل RF
+- `docs/` : مستندات و آموزش‌ها
+- `README.md` : معرفی پروژه
 
-Planned application capabilities
-- Device scanner and capability report
-- NFC tag read/write and HCE basics
-- IR code emission when supported by the phone
-- BLE interface to external hardware
-- USB-OTG serial bridge for external dongles/controllers
-- External radio module integration for low-frequency RF workflows
+## نکته مهم
 
-Legal / safety note
-- RF transmission in licensed or regulated bands may be restricted by local law.
-- Do not use this project to interfere with real devices or networks you do not own or are not authorized to test.
+گوشی اندرویدی به‌صورت مستقیم معمولاً توان ارسال RF در باندهای کم‌فرکانس را ندارد. اگر هدف ارسال واقعی در فرکانس‌های 315/433/868/915 MHz است، باید ماژول جانبی مثل CC1101 یا ESP32 + CC1101 به گوشی وصل شود.
 
-Repository status
-- The project is in active prototype stage and is meant as a starting point for a real Android + external hardware implementation.
+## قابلیت‌های پیشنهادی اپ
+
+- تشخیص سخت‌افزار گوشی
+- NFC: خواندن و نوشتن تگ‌ها
+- HCE: امولیت‌کردن کارت‌های پشتیبانی‌شده
+- IR: ارسال کدهای IR در دستگاه‌های دارای IR
+- BLE: ارتباط با ESP32 یا ماژول‌های جانبی
+- USB-OTG: اتصال مستقیم به ماژول یا دستگاه جانبی
+- RF bridge: ارسال فرمان‌ها به ماژول خارجی برای RF
+
+## محدودیت‌های واقعی
+
+- گوشی فقط در برخی بخش‌ها می‌تواند «همه چیز را خودش انجام دهد»
+- برای کارهای رادیویی واقعی، ماژول خارجی الزامی است
+- استفاده از RF باید طبق قوانین محلی و مجوزهای مربوطه انجام شود
+
+## وضعیت پروژه
+
+این مخزن در مرحله‌ی نمونه‌سازی اولیه است و برای ساخت نسخه‌ی عملی و قابل اجرا باید ماژول خارجی و رابط‌های BLE/USB توسعه پیدا کنند.
