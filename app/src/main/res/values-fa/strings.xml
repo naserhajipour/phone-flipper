@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">فلیپر گوشی</string>
+    <string name="title_capability_check">بررسی قابلیت‌های گوشی</string>
+    <string name="btn_refresh">به‌روزرسانی گزارش</string>
+    <string name="subtitle">ویژگی‌های واقعی سخت‌افزاری دستگاه شما</string>
+    <string name="summary_header">خلاصه</string>
+    <string name="rf_warning">RF زیرگیگاه (315/433/868/915 مگاهرتز) در بیشتر گوشی‌ها موجود نیست. از ماژول جانبی مثل ESP32 + CC1101 استفاده کنید.</string>
+    <string name="nfc_title">NFC</string>
+    <string name="nfc_desc">پشتیبانی از کارت‌ها و تگ‌های بدون تماس.</string>
+    <string name="hce_title">HCE</string>
+    <string name="hce_desc">امولیت‌کردن کارت‌های سازگار در سناریوهای مجاز.</string>
+    <string name="ir_title">مادون قرمز</string>
+    <string name="ir_desc">ارسال کدهای IR در دستگاه‌هایی که سخت‌افزار Consumer IR دارند.</string>
+    <string name="ble_title">Bluetooth LE</string>
+    <string name="ble_desc">ارتباط بی‌سیم با ماژول خارجی.</string>
+    <string name="usb_title">USB Host / OTG</string>
+    <string name="usb_desc">امکان اتصال ماژول‌ها و آداپتورهای جانبی.</string>
+    <string name="rf_title">RF زیرگیگاه</string>
+    <string name="rf_desc">برای کارهای RF کم‌فرکانس معمولاً به ماژول جانبی نیاز است.</string>
+    <string name="report_placeholder">در حال بررسی قابلیت‌های دستگاه…</string>
+    <string name="report_conclusion">نتیجه عملی: ارسال مستقیم RF در بیشتر گوشی‌های اندرویدی محدود است. از قابلیت‌های گوشی در صورت پشتیبانی استفاده کنید و برای کارهای کامل فلیپر مانند، سخت‌افزار جانبی اضافه کنید.</string>
+</resources>

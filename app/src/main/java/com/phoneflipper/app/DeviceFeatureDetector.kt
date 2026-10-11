@@ -8,8 +8,6 @@ import android.os.Build
 import android.util.Log
 import android.bluetooth.BluetoothAdapter
 
-private const val TAG = "DeviceDetector"
-
 data class CapabilityItem(
     val name: String,
     val supported: Boolean,
@@ -30,9 +28,9 @@ class DeviceFeatureDetector(private val context: Context) {
                 supported = hasNfc,
                 detail = if (hasNfc) {
                     val adapter = NfcAdapter.getDefaultAdapter(context)
-                    "Adapter present = ${adapter != null}; HCE available = ${pm.hasSystemFeature(PackageManager.FEATURE_NFC_HOST_CARD_EMULATION)}"
+                    "Adapter present = ${adapter != null}; HCE support = ${pm.hasSystemFeature(PackageManager.FEATURE_NFC_HOST_CARD_EMULATION)}"
                 } else {
-                    "Phone does not expose NFC support."
+                    "This phone does not expose NFC support."
                 },
                 category = "NFC"
             )
@@ -41,9 +39,9 @@ class DeviceFeatureDetector(private val context: Context) {
         val hasHce = pm.hasSystemFeature(PackageManager.FEATURE_NFC_HOST_CARD_EMULATION)
         list.add(
             CapabilityItem(
-                name = "Host Card Emulation (HCE)",
+                name = "HCE",
                 supported = hasHce,
-                detail = if (hasHce) "Device supports NFC emulation for supported card scenarios." else "HCE not available on this device.",
+                detail = if (hasHce) "Phone supports Host Card Emulation." else "HCE is unavailable on this device.",
                 category = "NFC"
             )
         )
@@ -52,10 +50,10 @@ class DeviceFeatureDetector(private val context: Context) {
         val irManager = context.getSystemService(Context.CONSUMER_IR_SERVICE) as? ConsumerIrManager
         list.add(
             CapabilityItem(
-                name = "Infrared (IR)",
+                name = "Infrared",
                 supported = hasIr,
                 detail = if (hasIr) {
-                    "IR emitter available; carrier range = ${irManager?.carrierFrequencies?.joinToString() ?: "unknown"}"
+                    "Consumer IR hardware available. Carrier frequencies: ${irManager?.carrierFrequencies?.joinToString() ?: "unknown"}"
                 } else {
                     "No Consumer IR hardware detected."
                 },
@@ -68,7 +66,7 @@ class DeviceFeatureDetector(private val context: Context) {
             CapabilityItem(
                 name = "Bluetooth LE",
                 supported = hasBle,
-                detail = if (hasBle) "BLE is available for communication with external bridge hardware." else "No BLE support detected.",
+                detail = if (hasBle) "BLE is available for communication with an external bridge." else "No BLE support detected.",
                 category = "Connectivity"
             )
         )
@@ -78,7 +76,7 @@ class DeviceFeatureDetector(private val context: Context) {
             CapabilityItem(
                 name = "Bluetooth Classic",
                 supported = hasBt,
-                detail = if (hasBt) "Classic Bluetooth available." else "Classic Bluetooth not available.",
+                detail = if (hasBt) "Classic Bluetooth is available." else "Classic Bluetooth is not available.",
                 category = "Connectivity"
             )
         )
@@ -86,9 +84,9 @@ class DeviceFeatureDetector(private val context: Context) {
         val hasUsbHost = pm.hasSystemFeature(PackageManager.FEATURE_USB_HOST)
         list.add(
             CapabilityItem(
-                name = "USB Host (OTG)",
+                name = "USB Host / OTG",
                 supported = hasUsbHost,
-                detail = if (hasUsbHost) "Phone can act as USB host and may attach external dongles." else "No OTG host support detected.",
+                detail = if (hasUsbHost) "The phone can act as USB Host and attach external dongles." else "No OTG host support detected.",
                 category = "Connectivity"
             )
         )
@@ -98,7 +96,7 @@ class DeviceFeatureDetector(private val context: Context) {
             CapabilityItem(
                 name = "Camera",
                 supported = hasCamera,
-                detail = if (hasCamera) "Camera exists; this can support optical or vision-based workflows if needed." else "No camera found.",
+                detail = if (hasCamera) "Camera hardware is present." else "No camera was detected.",
                 category = "Sensors"
             )
         )
@@ -106,9 +104,9 @@ class DeviceFeatureDetector(private val context: Context) {
         val hasTelephony = pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
         list.add(
             CapabilityItem(
-                name = "Cellular / Telephony",
+                name = "Cellular",
                 supported = hasTelephony,
-                detail = if (hasTelephony) "Cellular modem available." else "No telephony hardware detected.",
+                detail = if (hasTelephony) "Cellular modem is present." else "No cellular hardware found.",
                 category = "Connectivity"
             )
         )
@@ -118,17 +116,16 @@ class DeviceFeatureDetector(private val context: Context) {
             CapabilityItem(
                 name = "Wi‑Fi Direct",
                 supported = hasWifiDirect,
-                detail = if (hasWifiDirect) "Wi‑Fi Direct available for peer-to-peer communication." else "No Wi‑Fi Direct support detected.",
+                detail = if (hasWifiDirect) "Wi‑Fi Direct is available for peer-to-peer communication." else "Wi‑Fi Direct support is not available.",
                 category = "Connectivity"
             )
         )
 
-        // Sub-GHz is not a standard Android feature; most devices won't expose it.
         list.add(
             CapabilityItem(
-                name = "Sub‑GHz RF (315/433/868/915 MHz)",
+                name = "Sub‑GHz RF",
                 supported = false,
-                detail = "Most phones do not have direct built-in RF TX hardware for low-frequency bands. Use an external module such as CC1101 or SDR to bridge from the phone.",
+                detail = "Standard Android phones usually do not expose direct 315/433/868/915 MHz TX hardware. You should use an external radio bridge such as ESP32 + CC1101.",
                 category = "RF"
             )
         )
@@ -136,24 +133,24 @@ class DeviceFeatureDetector(private val context: Context) {
         val btAdapter = try {
             BluetoothAdapter.getDefaultAdapter()
         } catch (e: SecurityException) {
-            Log.w(TAG, "Bluetooth adapter access requires permission", e)
+            Log.w("PhoneFlipper", "Bluetooth adapter access requires runtime permission", e)
             null
         }
+
         list.add(
             CapabilityItem(
-                name = "Bluetooth Adapter",
+                name = "Bluetooth adapter",
                 supported = btAdapter != null,
-                detail = if (btAdapter != null) "Adapter available, state = ${btAdapter.state}" else "No bluetooth adapter discovered.",
+                detail = if (btAdapter != null) "Bluetooth adapter available; state = ${btAdapter.state}" else "No Bluetooth adapter discovered.",
                 category = "Connectivity"
             )
         )
 
-        val supportedCount = list.count { it.supported }
         list.add(
             CapabilityItem(
-                name = "Phone capability summary",
-                supported = supportedCount > 0,
-                detail = "This phone supports ${supportedCount} major feature groups directly. For full RF-like Flipper workflows, external hardware is still required for Sub‑GHz operations.",
+                name = "Device summary",
+                supported = list.count { it.supported } > 0,
+                detail = "This device supports ${list.count { it.supported }} major feature groups directly. For full Flipper-like RF workflows, external hardware is still required.",
                 category = "Summary"
             )
         )
