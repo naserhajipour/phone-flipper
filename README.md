@@ -1,2 +1,7 @@
 # phone-flipper
-Android app + hardware bridge for Flipper Zero-like features using a phone and external radio module
+
+این مخزن هدف دارد یک اپ اندرویدی بسازد که امکانات گوشی (NFC, IR, Bluetooth, USB‑OTG و...) را شناسایی کند و از تمام امکانات موجود برای انجام کارهای مشابه Flipper Zero استفاده نماید. همچنین فرمور پیشنهادی برای ماژول خارجی (ESP32 + CC1101) و مستندات ساخت و اتصال فراهم می‌شود.
+
+شروع: یک اپ ساده اندروید وجود دارد که سخت‌افزار گوشی را بررسی می‌کند و نتیجه را نمایش می‌دهد. در مراحل بعدی قابلیت‌های ارسال RF با ماژول خارجی، امولیت NFC/HCE، و IR اضافه خواهد شد.
+
+لینک مخزن: https://github.com/naserhajipour/phone-flipper
