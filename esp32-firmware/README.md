@@ -1,5 +1,16 @@
-# ESP32 + CC1101 firmware (placeholder)
+# ESP32 firmware stub
 
-در این پوشه فرمور ساده برای ESP32 قرار می‌گیرد که به عنوان مودول رادیویی عمل می‌کند. برنامه وظیفه دارد فرمان‌های ساده‌ای را از طریق BLE یا UART دریافت کند و آنها را به CC1101 ارسال نماید.
+This is a minimal stub for an ESP32-based radio bridge. The final firmware will expose a BLE UART or USB serial service and will relay commands to a CC1101 module.
 
-شروع کننده: یک stub اولیه اضافه خواهد شد که بعداً با کتابخانه‌های CC1101 و پیاده‌سازی پروتکل فرمان کامل می‌شود.
+## Structure
+- `src/main.cpp` — main firmware entry point
+- `platformio.ini` — PlatformIO configuration
+
+## Planned behavior
+- Boot and initialize serial
+- Expose BLE service or UART interface
+- Parse commands from the phone
+- Forward radio commands to CC1101
+- Report status back to the Android app
+
+The current stub is intentionally small and easy to extend.
