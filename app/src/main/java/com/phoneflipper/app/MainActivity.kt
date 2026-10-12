@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.media.AudioFormat
 import android.media.AudioRecord
@@ -20,6 +22,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import java.io.File
+import java.io.FileOutputStream
+import java.util.Locale
 import kotlin.math.*
 
 class MainActivity : AppCompatActivity() {
@@ -30,9 +35,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnScanAudio: Button
     private lateinit var btnScanCamera: Button
     private lateinit var btnSensorTrace: Button
+    private lateinit var btnExport: Button
 
     private val audioRequestCode = 2001
     private val cameraRequestCode = 2002
+    private var sensorTraceText = ""
 
     private val imageCaptureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -57,20 +64,22 @@ class MainActivity : AppCompatActivity() {
         btnScanAudio = findViewById(R.id.btnScanAudio)
         btnScanCamera = findViewById(R.id.btnScanCamera)
         btnSensorTrace = findViewById(R.id.btnSensorTrace)
+        btnExport = findViewById(R.id.btnExport)
 
         title = getString(R.string.app_name)
 
         btnRefresh.setOnClickListener { renderHardwareReport() }
         btnScanAudio.setOnClickListener { requestAudioAndScan() }
         btnScanCamera.setOnClickListener { requestCameraAndCapture() }
-        btnSensorTrace.setOnClickListener { renderSensorTrace() }
+        btnSensorTrace.setOnClickListener { startSensorTrace() }
+        btnExport.setOnClickListener { exportHardwareReport() }
 
         renderHardwareReport()
     }
 
     private fun renderHardwareReport() {
         val pm = packageManager
-        val sensors = getSystemService(SensorManager::class.java)
+        val sm = getSystemService(SensorManager::class.java) as SensorManager
         val summary = StringBuilder()
         summary.append("Hardware report:\n")
         summary.append("Microphone: ${pm.hasSystemFeature(PackageManager.FEATURE_MICROPHONE)}\n")
@@ -80,8 +89,6 @@ class MainActivity : AppCompatActivity() {
         summary.append("NFC: ${pm.hasSystemFeature(PackageManager.FEATURE_NFC)}\n")
         summary.append("BLE: ${pm.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)}\n")
         summary.append("IR: ${pm.hasSystemFeature(PackageManager.FEATURE_CONSUMER_IR)}\n")
-
-        val sm = getSystemService(SensorManager::class.java)
         summary.append("Accelerometer: ${sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null}\n")
         summary.append("Gyroscope: ${sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null}\n")
         summary.append("Magnetometer: ${sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null}\n")
@@ -92,21 +99,9 @@ class MainActivity : AppCompatActivity() {
         tvReport.text = summary.toString()
     }
 
-    private fun renderSensorTrace() {
-        val sm = getSystemService(SensorManager::class.java)
-        val sb = StringBuilder()
-        sb.append("Sensor trace:\n")
-        sb.append("Accelerometer: ${sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null}\n")
-        sb.append("Gyroscope: ${sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null}\n")
-        sb.append("Magnetometer: ${sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null}\n")
-        sb.append("Light sensor: ${sm.getDefaultSensor(Sensor.TYPE_LIGHT) != null}\n")
-        sb.append("This is a report-only prototype. For live vibration or magnetic field analysis, add a hardware bridge or calibrated sensors.")
-        tvReport.append("\n\n" + sb.toString())
-    }
-
     private fun hasHeadphoneJack(): Boolean {
         val audioManager = getSystemService(android.media.AudioManager::class.java)
-        return audioManager.isWiredHeadsetOn
+        return (audioManager as android.media.AudioManager).isWiredHeadsetOn
     }
 
     private fun requestAudioAndScan() {
@@ -202,7 +197,7 @@ class MainActivity : AppCompatActivity() {
                 val dominantHz = maxIndex * sampleRate.toDouble() / fftSize
 
                 runOnUiThread {
-                    tvReport.append(String.format("\nAudio scan result: dominant frequency ≈ %.1f Hz", dominantHz))
+                    tvReport.append(String.format(Locale.US, "\nAudio scan result: dominant frequency ≈ %.1f Hz", dominantHz))
                     progress.visibility = View.GONE
                 }
             } catch (e: Exception) {
@@ -291,5 +286,55 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return count
+    }
+
+    private fun startSensorTrace() {
+        val sm = getSystemService(SensorManager::class.java) as SensorManager
+        val listeners = mutableListOf<SensorEventListener>()
+        var data = "Sensor trace:\n"
+
+        val accel = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        val gyro = sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+        val mag = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+
+        if (accel == null && gyro == null && mag == null) {
+            tvReport.append("\nNo motion sensors detected on this device.")
+            return
+        }
+
+        val sensorListener = object : SensorEventListener {
+            override fun onSensorChanged(event: SensorEvent?) {
+                if (event == null) return
+                val axis = event.values.joinToString(separator = ", ") { it.toString() }
+                data += "${event.sensor.type}: [$axis]\n"
+                sensorTraceText = data
+            }
+
+            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
+        }
+
+        if (accel != null) sm.registerListener(sensorListener, accel, SensorManager.SENSOR_DELAY_NORMAL)
+        if (gyro != null) sm.registerListener(sensorListener, gyro, SensorManager.SENSOR_DELAY_NORMAL)
+        if (mag != null) sm.registerListener(sensorListener, mag, SensorManager.SENSOR_DELAY_NORMAL)
+
+        Thread {
+            Thread.sleep(3000)
+            runOnUiThread {
+                sm.unregisterListener(sensorListener)
+                tvReport.append("\n" + sensorTraceText.ifEmpty { "Sensor trace: no reading captured." })
+            }
+        }.start()
+    }
+
+    private fun exportHardwareReport() {
+        val reportText = tvReport.text.toString()
+        val file = File(filesDir, "flipper_one_report.json")
+        try {
+            val payload = "{\n  \"device\": \"Flipper One\",\n  \"report\": \"${reportText.replace("\n", "\\n").replace("\"", "\\\"")}\"\n}\n"
+            FileOutputStream(file).use { it.write(payload.toByteArray()) }
+            tvReport.append("\nReport exported to: ${file.absolutePath}")
+        } catch (e: Exception) {
+            tvReport.append("\nExport failed: ${e.message}")
+        }
     }
 }

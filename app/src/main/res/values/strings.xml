@@ -6,6 +6,7 @@
     <string name="btn_audio">Scan audio</string>
     <string name="btn_camera">Scan camera</string>
     <string name="btn_sensors">Sensor trace</string>
+    <string name="btn_export">Export report</string>
     <string name="subtitle">Real hardware features of your device</string>
     <string name="summary_header">Summary</string>
     <string name="rf_warning">Sub-GHz RF is not available on most phones. Use an external radio bridge such as ESP32 + CC1101.</string>
