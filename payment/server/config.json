@@ -1,0 +1,8 @@
+{
+  "priceUSD": 1.00,
+  "demoDurationDays": 3,
+  "acceptedToken": "BUSD",
+  "busdContract": "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+  "confirmationsRequired": 1,
+  "receiveAddress": "0x15dDE8260DC18c17127e844823d87d14f86395A0"
+}
