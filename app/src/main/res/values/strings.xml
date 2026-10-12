@@ -1,30 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Flipper One</string>
-    <string name="title_capability_check">Phone Capability Check</string>
+    <string name="title_capability_check">Device capability check</string>
     <string name="btn_refresh">Refresh report</string>
+    <string name="btn_audio">Scan audio</string>
+    <string name="btn_camera">Scan camera</string>
+    <string name="btn_sensors">Sensor trace</string>
     <string name="subtitle">Real hardware features of your device</string>
     <string name="summary_header">Summary</string>
-    <string name="rf_warning">Sub-GHz RF (315/433/868/915 MHz) is not available in most phones. Use an external radio bridge such as ESP32 + CC1101.</string>
+    <string name="rf_warning">Sub-GHz RF is not available on most phones. Use an external radio bridge such as ESP32 + CC1101.</string>
     <string name="nfc_title">NFC</string>
-    <string name="nfc_desc">Support for contactless card and tag operations.</string>
+    <string name="nfc_desc">Contactless card and tag support.</string>
     <string name="hce_title">HCE</string>
-    <string name="hce_desc">Host Card Emulation for compatible scenarios.</string>
+    <string name="hce_desc">Host Card Emulation.</string>
     <string name="ir_title">Infrared</string>
-    <string name="ir_desc">IR transmit support when the device has Consumer IR hardware.</string>
+    <string name="ir_desc">Consumer IR support when available.</string>
     <string name="ble_title">Bluetooth LE</string>
-    <string name="ble_desc">Wireless communication with external bridge hardware.</string>
+    <string name="ble_desc">Wireless communication with external hardware.</string>
     <string name="usb_title">USB Host / OTG</string>
-    <string name="usb_desc">Ability to connect external adapters and modules via USB/OTG.</string>
+    <string name="usb_desc">Use USB/OTG to connect external adapters and modules.</string>
     <string name="usb_port">USB Port</string>
     <string name="headphone_jack">Headphone Jack</string>
-    <string name="headphone_desc">Use for audio I/O or analog input when available on the device.</string>
+    <string name="headphone_desc">Audio input/output when hardware is present.</string>
     <string name="sensor_accel">Accelerometer</string>
     <string name="sensor_gyro">Gyroscope</string>
     <string name="sensor_mag">Magnetometer / Compass</string>
-    <string name="ble_title">Bluetooth LE</string>
-    <string name="rf_title">Sub-GHz RF</string>
-    <string name="rf_desc">A separate radio bridge is usually required for low-frequency RF tasks.</string>
+    <string name="sensor_light">Light sensor</string>
     <string name="report_placeholder">Checking device capabilities…</string>
-    <string name="report_conclusion">Practical conclusion: direct RF transmission on most Android phones is limited. Use phone-native features when present, and connect external hardware for full functionality.</string>
+    <string name="report_conclusion">Practical conclusion: direct RF transmission on most Android phones is limited. Use phone-native features when present and connect external hardware for full functionality.</string>
+    <string name="privacy_notice">Privacy note: microphone and camera access are only used when you tap a scan action, and the app will clearly explain any sensor or hardware use.</string>
 </resources>

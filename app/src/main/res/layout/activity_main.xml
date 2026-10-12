@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F7FA"
     android:padding="16dp">
 
     <LinearLayout
@@ -10,30 +11,72 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/subtitle"
+            android:textSize="16sp"
+            android:paddingBottom="16dp" />
+
+        <TextView
             android:id="@+id/tvReport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Initializing..."
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="@string/report_placeholder"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="#FFFFFF"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp" />
 
         <ProgressBar
             android:id="@+id/progress"
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_refresh" />
 
         <Button
             android:id="@+id/btnScanAudio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Scan Audio (record 1s)" />
+            android:text="@string/btn_audio" />
 
         <Button
             android:id="@+id/btnScanCamera"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Scan Camera (capture)" />
+            android:text="@string/btn_camera" />
+
+        <Button
+            android:id="@+id/btnSensorTrace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_sensors" />
+
+        <TextView
+            android:id="@+id/tvPrivacy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/privacy_notice"
+            android:textSize="12sp"
+            android:textColor="#444444"
+            android:paddingTop="14dp" />
 
     </LinearLayout>
 </ScrollView>
