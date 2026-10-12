@@ -1,0 +1,3 @@
+Triggering GitHub Actions build for APK artifact
+
+This file was added to trigger the CI workflow to build the debug APK so you can download it without building locally.
