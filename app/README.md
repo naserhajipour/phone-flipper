@@ -1,13 +1,30 @@
-# Android app hardware detection prototype (Flipper One)
+# Flipper One
 
-This app checks what the phone can actually do and shows a clear capability report to the user.
+This app inspects the real hardware features of an Android device and gives a clear capability report to the user.
 
-It is intentionally designed as a practical foundation for a Flipper One-like experience built around a phone plus external hardware. The app examines:
+It is designed as a practical prototype for a phone-first "Flipper-like" workflow with external hardware support.
 
-- NFC, HCE, IR
+## What it checks
+
+- NFC
+- HCE
+- IR
 - Bluetooth / BLE
-- USB-OTG and USB port availability
-- Headphone jack (if present)
-- Sensors: accelerometer, gyroscope, magnetometer (compass), light sensor, etc.
+- USB Host / OTG
+- Headphone jack
+- Microphone
+- Camera
+- Accelerometer
+- Gyroscope
+- Magnetometer / Compass
+- Light sensor
 
-Use this as a starting point to connect the phone to an ESP32 or other radio bridge for Sub‑GHz RF functionality.
+## Purpose
+
+The app helps the user understand what the device can do on its own and when an external bridge or module is necessary.
+
+## Limitations
+
+- Most phones cannot transmit Sub-GHz RF directly.
+- Audio and visual detection is heuristic and prototype-level.
+- Advanced sensing requires external hardware or calibrated sensors.

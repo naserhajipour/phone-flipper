@@ -1,45 +1,31 @@
-# راهنمای پروژه اندروید
+# Android guide
 
-این اپ برای تشخیص قابلیت‌های سخت‌افزاری گوشی اندروید طراحی شده است و با نام فلپر وان (Flipper One) توسعه می‌یابد.
+This app is designed to inspect the device's real hardware capabilities and inform the user about what is available and what requires external hardware.
 
-## هدف
+## Goal
 
-اپ باید بداند گوشی چه چیزهایی را دارد و چه چیزهایی را نه، تا بر اساس آن تصمیم بگیرد که از کدام ماژول یا سطح سخت‌افزاری استفاده کند.
+The app answers these questions:
 
-## قابلیت‌های بررسی‌شده
+- Which hardware features are present?
+- Which features are limited by the OS or device?
+- Which features require an external bridge?
+
+## Features under inspection
 
 - NFC
 - HCE
 - IR
 - Bluetooth
 - BLE
-- USB Host / OTG و پورت USB
-- جک هدفون (در دستگاه‌هایی که دارند)
-- سنسورها: شتاب‌سنج، ژیروسکوپ، حسگر مغناطیس (Compass)، حسگر نور و دیگر سنسورهای مرتبط
+- USB Host / OTG
+- Headphone jack
+- Microphone
 - Camera
-- Telephony
-- Wi‑Fi Direct
-- Sub‑GHz RF (نیاز به ماژول خارجی)
+- Accelerometer
+- Gyroscope
+- Magnetometer
+- Light sensor
 
-## اینکه چرا Sub‑GHz در این اپ بررسی می‌شود
+## Why this matters
 
-در اندروید یک API استاندارد و عمومی برای ارسال مستقیم Sub‑GHz وجود ندارد؛ بنابراین در اکثر گوشی‌ها این قابلیت به‌صورت مستقیم در دسترس نیست.
-
-## خروجی اپ
-
-اپ یک گزارش کامل از قابلیت‌های گوشی نمایش می‌دهد، برای مثال:
-
-- NFC: SUPPORT
-- HCE: SUPPORT
-- IR: NOT SUPPORTED
-- BLE: SUPPORT
-- USB Host: SUPPORT
-- جک هدفون: PRESENT/NOT_PRESENT
-- Gyroscope: PRESENT/NOT_PRESENT
-- Magnetometer: PRESENT/NOT_PRESENT
-- Sub‑GHz RF: NOT SUPPORTED on phone, requires external module
-
-## تفاوت واقعی گوشی و ماژول خارجی
-
-- گوشی: رابط و کنترل‌کننده
-- ماژول خارجی: فرستنده/گیرنده رادیویی واقعی
+A phone can be a powerful front-end, but many radio and physical sensing tasks require external hardware. This app makes that distinction visible.

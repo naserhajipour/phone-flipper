@@ -1,45 +1,52 @@
 # Flipper One
 
-این پروژه یک نمونه‌ی عملی و واقع‌گرایانه برای ساخت یک اپ اندروید است که با گوشی و سخت‌افزار جانبی، قابلیت‌های مشابه سیستم‌های فلیپر را فراهم می‌کند.
+This project is a practical Android prototype designed to inspect real hardware capabilities of a phone and pair them with external hardware for extended functionality.
 
-## ایده اصلی
+## Overview
 
-- گوشی اندروید در کنار ماژول خارجی می‌تواند بسیاری از قابلیت‌های فلیپر را شبیه‌سازی کند.
-- برخی قابلیت‌ها را گوشی خودش دارد: NFC، IR، Bluetooth/BLE، USB-OTG، پورت USB، جک هدفون، و سنسورهای داخلی (شتاب‌سنج، ژیروسکوپ، حسگر مغناطیس/Compass، و دیگر سنسورها).
-- اما برای RF/Sub‑GHz مانند 315/433/868/915 MHz، اکثر گوشی‌ها این سخت‌افزار را ندارند و نیاز به ماژول جانبی دارند.
-- بنابراین معماری درست این است:
-  - گوشی: رابط کاربری، تشخیص سخت‌افزار و کنترل
-  - ماژول خارجی: ارسال واقعی سیگنال‌های RF
+Flipper One turns a smartphone into a capability-aware control center. It checks what the device can do natively and what requires a bridge, such as ESP32, USB-OTG module, or external sensor hardware.
 
-## ساختار پروژه
+## Core idea
 
-- `app/` : پروژه اندروید
-- `esp32-firmware/` : کد ماژول ESP32 برای ارتباط BLE/UART و کنترل RF
-- `docs/` : مستندات و آموزش‌ها
-- `README.md` : معرفی پروژه
+- A phone can expose useful capabilities such as microphone, camera, accelerometer, gyroscope, magnetometer, USB-OTG, and NFC.
+- Some features are limited by hardware and OS support, such as Sub-GHz RF or certain radio operations.
+- For advanced tasks, an external hardware bridge is required.
 
-## نکته مهم
+## Modules
 
-گوشی اندرویدی به‌صورت مستقیم معمولاً توان ارسال RF در باندهای کم‌فرکانس را ندارد. اگر هدف ارسال واقعی در فرکانس‌های رادیویی است، ماژول جانبی ضروری است.
+- `app/` — Android app
+- `esp32-firmware/` — firmware for ESP32 bridge and RF handling
+- `docs/` — project docs and technical notes
+- `payment/` — payment / licensing / support hooks
+- `README.md` — project overview
 
-## قابلیت‌های پیشنهادی اپ
+## Main features in the app
 
-- تشخیص سخت‌افزار گوشی
-- NFC: خواندن و نوشتن تگ‌ها
-- HCE: امولیت‌کردن کارت‌های پشتیبانی‌شده
-- IR: ارسال کدهای IR در دستگاه‌های دارای IR
-- BLE: ارتباط با ESP32 یا ماژول‌های جانبی
-- USB-OTG و پورت USB: اتصال و کنترل ماژول‌ها یا دستگاه‌های خارجی
-- جک هدفون (در دستگاه‌هایی که موجود است) برای کاربردهای صوتی یا میکروفون/ورودی آنالوگ
-- سنسورها: شتاب‌سنج (accelerometer)، ژیروسکوپ (gyroscope)، حسگر مغناطیس (magnetometer/compass)، دوربین، حسگر نور و دیگر سنسورهای مرتبط
-- RF bridge: ارسال فرمان‌ها به ماژول خارجی برای RF
+- Device capability report
+- Microphone scan and basic audio frequency analysis
+- Camera capture and reflection-like detection for hidden-lens checks
+- Sensor trace for motion and magnetic field detection
+- Export of the report as JSON
+- Privacy notice before microphone/camera use
 
-## محدودیت‌های واقعی
+## Usage
 
-- گوشی فقط در برخی بخش‌ها می‌تواند «همه چیز را خودش انجام دهد»
-- برای کارهای رادیویی واقعی، ماژول خارجی الزامی است
-- استفاده از RF باید طبق قوانین محلی و مجوزهای مربوطه انجام شود
+1. Open the app on a compatible Android device.
+2. Tap Refresh report to inspect the device hardware.
+3. Use the scan buttons to test microphone, camera, and motion sensors.
+4. Export the report for sharing or debugging.
 
-## وضعیت پروژه
+## Known limitations
 
-این مخزن در مرحله‌ی نمونه‌سازی اولیه است و برای ساخت نسخه‌ی عملی و قابل اجرا باید ماژول خارجی و رابط‌های BLE/UART یا USB-OTG به‌درستی پیاده‌سازی شوند.
+- Most phones do not support direct Sub-GHz RF transmission.
+- A real RF bridge or external hardware is usually required.
+- Audio and reflection analysis are prototype-grade, not absolute detectors.
+- Hidden camera detection is heuristic and may produce false positives.
+
+## Privacy
+
+The app will request microphone or camera permissions only when the user explicitly starts the corresponding scan. The app clearly states the purpose of the access.
+
+## Status
+
+This repository is in a mature MVP/prototype phase for hardware capability reporting and experimental scans. It is suitable for internal testing, showcase demos, and further extension into a more complete product.
