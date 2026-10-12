@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Phone Flipper</string>
+    <string name="app_name">Flipper One</string>
     <string name="title_capability_check">Phone Capability Check</string>
     <string name="btn_refresh">Refresh report</string>
     <string name="subtitle">Real hardware features of your device</string>
@@ -19,5 +19,5 @@
     <string name="rf_title">Sub-GHz RF</string>
     <string name="rf_desc">A separate radio bridge is usually required for low-frequency RF tasks.</string>
     <string name="report_placeholder">Checking device capabilities…</string>
-    <string name="report_conclusion">Practical conclusion: direct RF transmission on most Android phones is limited. Use phone-native features when present, and connect external hardware for full Flipper-like RF workflows.</string>
+    <string name="report_conclusion">Practical conclusion: direct RF transmission on most Android phones is limited. Use phone-native features when present, and connect external hardware for full functionality.</string>
 </resources>
