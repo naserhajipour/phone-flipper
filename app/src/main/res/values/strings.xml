@@ -15,7 +15,14 @@
     <string name="ble_title">Bluetooth LE</string>
     <string name="ble_desc">Wireless communication with external bridge hardware.</string>
     <string name="usb_title">USB Host / OTG</string>
-    <string name="usb_desc">Ability to connect external adapters and modules.</string>
+    <string name="usb_desc">Ability to connect external adapters and modules via USB/OTG.</string>
+    <string name="usb_port">USB Port</string>
+    <string name="headphone_jack">Headphone Jack</string>
+    <string name="headphone_desc">Use for audio I/O or analog input when available on the device.</string>
+    <string name="sensor_accel">Accelerometer</string>
+    <string name="sensor_gyro">Gyroscope</string>
+    <string name="sensor_mag">Magnetometer / Compass</string>
+    <string name="ble_title">Bluetooth LE</string>
     <string name="rf_title">Sub-GHz RF</string>
     <string name="rf_desc">A separate radio bridge is usually required for low-frequency RF tasks.</string>
     <string name="report_placeholder">Checking device capabilities…</string>

@@ -13,11 +13,13 @@
 - IR
 - Bluetooth
 - BLE
-- USB Host / OTG
+- USB Host / OTG و پورت USB
+- جک هدفون (در دستگاه‌هایی که دارند)
+- سنسورها: شتاب‌سنج، ژیروسکوپ، حسگر مغناطیس (Compass)، حسگر نور و دیگر سنسورهای مرتبط
 - Camera
 - Telephony
 - Wi‑Fi Direct
-- Sub‑GHz RF
+- Sub‑GHz RF (نیاز به ماژول خارجی)
 
 ## اینکه چرا Sub‑GHz در این اپ بررسی می‌شود
 
@@ -32,6 +34,9 @@
 - IR: NOT SUPPORTED
 - BLE: SUPPORT
 - USB Host: SUPPORT
+- جک هدفون: PRESENT/NOT_PRESENT
+- Gyroscope: PRESENT/NOT_PRESENT
+- Magnetometer: PRESENT/NOT_PRESENT
 - Sub‑GHz RF: NOT SUPPORTED on phone, requires external module
 
 ## تفاوت واقعی گوشی و ماژول خارجی
