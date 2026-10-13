@@ -290,7 +290,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun startSensorTrace() {
         val sm = getSystemService(SensorManager::class.java) as SensorManager
-        val listeners = mutableListOf<SensorEventListener>()
         var data = "Sensor trace:\n"
 
         val accel = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
@@ -330,7 +329,11 @@ class MainActivity : AppCompatActivity() {
         val reportText = tvReport.text.toString()
         val file = File(filesDir, "flipper_one_report.json")
         try {
-            val payload = "{\n  \"device\": \"Flipper One\",\n  \"report\": \"${reportText.replace("\n", "\\n").replace("\"", "\\\"")}\"\n}\n"
+            val safeReport = reportText
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+            val payload = "{\n  \"device\": \"Flipper One\",\n  \"report\": \"$safeReport\"\n}\n"
             FileOutputStream(file).use { it.write(payload.toByteArray()) }
             tvReport.append("\nReport exported to: ${file.absolutePath}")
         } catch (e: Exception) {

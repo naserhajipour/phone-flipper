@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <!-- For Android 12+ you may need BLUETOOTH_CONNECT / BLUETOOTH_SCAN at runtime -->
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" android:required="false" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:required="false" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:required="false" />
@@ -35,7 +34,9 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name="com.phoneflipper.app.MainActivity">
+        <activity
+            android:name="com.phoneflipper.app.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
