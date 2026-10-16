@@ -42,5 +42,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Settings activity for language/theme preferences -->
+        <activity
+            android:name="com.phoneflipper.app.SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_settings" />
+
+        <!-- Keep existing activities (ChatActivity, PromptActivity) registered by name if needed -->
     </application>
 </manifest>
