@@ -1,0 +1,21 @@
+# Reading magnetic fields
+
+The magnetometer measures total flux density in microtesla (µT). Earth's field alone is roughly 25–65 µT depending on latitude.
+
+## Interpreting the gauge
+- **Background** – 0–45 µT, typical indoors away from metal.
+- **Elevated** – 45–120 µT, near speakers, motors, transformers or steel frames.
+- **Strong** – above 120 µT, close to a magnet, a phone speaker or a mains transformer.
+
+## Method
+1. Remove the case and any magnetic mount.
+2. Note the baseline in the middle of the room.
+3. Approach the object slowly and watch the delta, not the absolute number.
+4. Rotate the phone: a static ferrous object changes with orientation, a magnet stays strong.
+
+## What it cannot do
+- It does not measure electric fields.
+- It cannot tell you whether a field is harmful.
+- Phone sensors saturate and are not calibrated instruments.
+
+> A "high" reading usually means the phone is near a speaker magnet, a laptop or a steel beam.

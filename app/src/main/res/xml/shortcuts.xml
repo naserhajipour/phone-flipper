@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_stat_flipper"
+        android:shortcutId="sensor_lab"
+        android:shortcutLongLabel="@string/tool_sensor"
+        android:shortcutShortLabel="@string/tool_sensor">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.phoneflipper.app.ui.SensorLabActivity"
+            android:targetPackage="com.phoneflipper.app" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_stat_flipper"
+        android:shortcutId="nfc_reader"
+        android:shortcutLongLabel="@string/tool_nfc"
+        android:shortcutShortLabel="@string/tool_nfc">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.phoneflipper.app.ui.NfcActivity"
+            android:targetPackage="com.phoneflipper.app" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_stat_flipper"
+        android:shortcutId="capability_report"
+        android:shortcutLongLabel="@string/tool_report"
+        android:shortcutShortLabel="@string/tool_report">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.phoneflipper.app.ui.CapabilitiesActivity"
+            android:targetPackage="com.phoneflipper.app" />
+    </shortcut>
+</shortcuts>

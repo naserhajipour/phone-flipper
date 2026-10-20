@@ -1,30 +1,43 @@
-# Flipper One
+# Flipper One — Android module
 
-This app inspects the real hardware features of an Android device and gives a clear capability report to the user.
+Zero-dependency Android application (Java, minSdk 24, targetSdk 35).
 
-It is designed as a practical prototype for a phone-first "Flipper-like" workflow with external hardware support.
+## Source map
 
-## What it checks
+```
+src/main/java/com/phoneflipper/app/
+├── FlipperApp.java          Application: locale wrapping
+├── core/
+│   ├── BaseActivity.java    Window, insets, top bar, navigation
+│   ├── Ui.java              Design system (spacing, type, cards, buttons)
+│   ├── IconDrawable.java    31 vector icons drawn on Canvas
+│   ├── Palette.java         Colour tokens
+│   ├── Capabilities.java    Hardware probing (12 checks)
+│   ├── Fft.java             Radix-2 FFT + Hann window
+│   ├── Prefs.java           Private preferences + NFC history
+│   ├── LocaleManager.java   Per-app locale (en / fa / system)
+│   ├── ReportBuilder.java   Text + JSON report generation
+│   └── ReportProvider.java  Read-only provider for exported files
+├── ui/                      One Activity per screen
+└── view/                    Gauges, charts, compass, level, overlay, logo
+```
 
-- NFC
-- HCE
-- IR
-- Bluetooth / BLE
-- USB Host / OTG
-- Headphone jack
-- Microphone
-- Camera
-- Accelerometer
-- Gyroscope
-- Magnetometer / Compass
-- Light sensor
+## Resources
 
-## Purpose
+* `res/values/strings.xml` – English catalogue (~315 strings).
+* `res/values-fa/strings.xml` – Persian catalogue, complete parity.
+* `res/values/colors.xml`, `themes.xml` – dark identity and dialog theme.
+* `res/mipmap-*` – generated launcher icons (`scripts/make_icons.py`).
+* `assets/guides/{en,fa}` – six offline briefings per language.
 
-The app helps the user understand what the device can do on its own and when an external bridge or module is necessary.
+## Conventions
 
-## Limitations
+* No third-party libraries and no network permission.
+* Screens never build chrome; they call `installScreen` / `installBare`.
+* Domain logic stays in `core`, drawing stays in `view`, screens orchestrate.
+* Persian text never receives letter spacing (`Ui.track` handles this).
+* Every new string must exist in both `values` and `values-fa`.
 
-- Most phones cannot transmit Sub-GHz RF directly.
-- Audio and visual detection is heuristic and prototype-level.
-- Advanced sensing requires external hardware or calibrated sensors.
+## Build
+
+See [`../docs/building.md`](../docs/building.md).

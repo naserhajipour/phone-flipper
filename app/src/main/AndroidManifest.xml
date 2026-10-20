@@ -1,54 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.phoneflipper.app">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Permissions -->
+    <!--
+      Flipper One is fully offline: there is deliberately no INTERNET permission
+      and no analytics/ads SDK. Every permission below maps to an in-app tool.
+    -->
     <uses-permission android:name="android.permission.NFC" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" android:required="false" />
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:required="false" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:required="false" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- New permissions for sensors and hardware features -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
-    <!-- Features (all optional so app can be installed on devices without them) -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation" />
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="30" />
+
+    <!-- Every hardware feature is optional so the app installs everywhere. -->
     <uses-feature android:name="android.hardware.nfc" android:required="false" />
     <uses-feature android:name="android.hardware.nfc.hce" android:required="false" />
     <uses-feature android:name="android.hardware.consumerir" android:required="false" />
     <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" />
     <uses-feature android:name="android.hardware.usb.host" android:required="false" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
     <uses-feature android:name="android.hardware.microphone" android:required="false" />
     <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="false" />
     <uses-feature android:name="android.hardware.sensor.gyroscope" android:required="false" />
     <uses-feature android:name="android.hardware.sensor.compass" android:required="false" />
     <uses-feature android:name="android.hardware.sensor.light" android:required="false" />
+    <uses-feature android:name="android.hardware.sensor.proximity" android:required="false" />
+    <uses-feature android:name="android.hardware.sensor.barometer" android:required="false" />
 
     <application
-        android:allowBackup="true"
+        android:name=".FlipperApp"
+        android:allowBackup="false"
+        android:enableOnBackInvokedCallback="true"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.FlipperOne"
+        android:usesCleartextTraffic="false">
+
         <activity
-            android:name="com.phoneflipper.app.MainActivity"
-            android:exported="true">
+            android:name=".ui.DashboardActivity"
+            android:exported="true"
+            android:theme="@style/Theme.FlipperOne">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Settings activity for language/theme preferences -->
         <activity
-            android:name="com.phoneflipper.app.SettingsActivity"
+            android:name=".ui.CapabilitiesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SensorLabActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.AudioLabActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.NfcActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.IrActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.LensFinderActivity"
             android:exported="false"
-            android:label="@string/title_settings" />
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.BridgeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.GuidesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.GuideDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:exported="false" />
 
-        <!-- Keep existing activities (ChatActivity, PromptActivity) registered by name if needed -->
+        <meta-data
+            android:name="android.app.shortcuts"
+            android:resource="@xml/shortcuts" />
+
+        <provider
+            android:name=".core.ReportProvider"
+            android:authorities="${applicationId}.reports"
+            android:exported="false"
+            android:grantUriPermissions="true" />
     </application>
 </manifest>

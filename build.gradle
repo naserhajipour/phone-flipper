@@ -1,18 +1,4 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath "com.android.tools.build:gradle:7.4.2"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+// Top-level build file. Plugin versions are declared once and reused by modules.
+plugins {
+    id 'com.android.application' version '8.7.3' apply false
 }

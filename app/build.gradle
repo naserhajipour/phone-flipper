@@ -1,23 +1,54 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
 }
 
+/*
+ * Flipper One is intentionally dependency-free: it uses only the Android
+ * framework, ships no analytics and declares no INTERNET permission.
+ */
 android {
-    compileSdk 33
+    namespace 'com.phoneflipper.app'
+    compileSdk 35
 
     defaultConfig {
-        applicationId "com.phoneflipper.app"
+        applicationId 'com.phoneflipper.app'
         minSdk 24
-        targetSdk 33
-        versionCode 1
-        versionName "0.1"
+        targetSdk 35
+        versionCode 10
+        versionName '1.0.0'
+
+        // The app is bilingual (English + Persian) and fully offline.
+        resourceConfigurations += ['en', 'fa']
+    }
+
+    signingConfigs {
+        release {
+            def storePath = rootProject.file('keystore/flipperone-release.jks')
+            if (storePath.exists()) {
+                storeFile storePath
+                storePassword System.getenv('FLIPPER_KEYSTORE_PASSWORD') ?: 'flipperone2026'
+                keyAlias System.getenv('FLIPPER_KEY_ALIAS') ?: 'flipperone'
+                keyPassword System.getenv('FLIPPER_KEY_PASSWORD') ?: 'flipperone2026'
+            }
+        }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (rootProject.file('keystore/flipperone-release.jks').exists()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 
@@ -25,14 +56,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = '11'
+
+    lint {
+        abortOnError true
+        checkReleaseBuilds true
+        disable 'MissingTranslation'
     }
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.activity:activity-ktx:1.7.0'
-    implementation 'com.google.android.material:material:1.8.0'
+    // No third-party runtime dependencies on purpose.
 }

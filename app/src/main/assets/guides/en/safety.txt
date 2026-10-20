@@ -1,0 +1,25 @@
+# Safe and legal use
+
+Flipper One is a diagnostic tool. The following rules are not optional.
+
+## Radio
+- Transmit only on equipment you own or have written permission to test.
+- Never replay signals from car remotes, gates, alarms or access control you do not own.
+- Respect national limits: frequency, power and duty cycle.
+- Rolling-code and encrypted systems cannot be cloned by a simple replay, and attempting it may be a criminal offence.
+
+## Infrared
+- Point the emitter only at devices you control.
+- IR is line of sight and harmless at these power levels, but avoid directing it into eyes at close range.
+
+## Optical and audio
+- The lens finder uses camera frames only. It never stores images.
+- Do not film people without consent; privacy law applies even when you hold the phone.
+- The audio lab captures from the microphone; nearby conversations are private.
+
+## Measurement honesty
+- EMF values include Earth's field and nearby electronics.
+- Reflection detection is a heuristic and produces false positives.
+- Ultrasonic readings depend on the microphone response curve.
+
+> If a result would cause you to confront someone, verify it with a second method first.

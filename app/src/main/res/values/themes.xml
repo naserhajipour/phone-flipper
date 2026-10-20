@@ -1,13 +1,29 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.PhoneFlipper" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:statusBarColor">@color/bg_main</item>
-        <item name="android:navigationBarColor">@color/bg_main</item>
-        <item name="android:windowBackground">@color/bg_main</item>
-        <item name="colorPrimary">@color/accent_blue</item>
-        <item name="colorSecondary">@color/accent_green</item>
-        <item name="colorSurface">@color/bg_card</item>
-        <item name="colorOnSurface">@color/text_primary</item>
-        <item name="android:textColorPrimary">@color/text_primary</item>
-        <item name="android:textColorSecondary">@color/text_secondary</item>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.FlipperOne" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:colorBackground">@color/bg</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/bg</item>
+        <item name="android:colorAccent">@color/primary</item>
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorSecondary">@color/text_dim</item>
+        <item name="android:textColorHint">@color/text_muted</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:alertDialogTheme">@style/Theme.FlipperOne.Dialog</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="Theme.FlipperOne.Dialog" parent="@android:style/Theme.Material.Dialog.Alert">
+        <item name="android:colorAccent">@color/primary</item>
+        <item name="android:windowBackground">@drawable/bg_dialog</item>
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorSecondary">@color/text_dim</item>
+        <item name="android:backgroundDimAmount">0.62</item>
     </style>
 </resources>

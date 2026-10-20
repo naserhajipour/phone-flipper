@@ -1,0 +1,20 @@
+# NFC basics
+
+NFC works at 13.56 MHz over a few centimetres. The reader screen shows what a tag really contains.
+
+## What you see
+- **UID** – the serial number reported by the tag. It is not secret and can be cloned on many cheap tags.
+- **Technology** – NFC-A, NFC-B, NFC-F, NFC-V or Barcode.
+- **Payload** – NDEF text, URI, MIME records or an empty tag.
+
+## Practical uses
+- Identify unknown tags and cards.
+- Read smart-poster URIs before opening them.
+- Confirm whether a tag is writable and NDEF-formatted.
+
+## Limits
+- Passive reading only: this release does not emulate cards or write tags.
+- Encrypted payment cards, passports and secure elements answer with nothing useful.
+- Some phones disable the reader when the screen is off.
+
+> Never tap an unknown tag and follow its link blindly: NFC stickers are a known phishing vector.

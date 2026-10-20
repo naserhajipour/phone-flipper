@@ -1,0 +1,31 @@
+# Radio bridge
+
+Phones cannot transmit at 315, 433, 868 or 915 MHz. A bridge does the radio work while the phone stays the controller and the screen.
+
+## Hardware
+- ESP32 development board
+- CC1101 module for the target band
+- 3.3 V supply, shared ground, short SPI wires
+- Optional IR LED plus transistor driver for infrared work
+
+## Wiring concept
+- ESP32 SPI to CC1101 SPI
+- GDO0 / GDO2 to GPIO inputs for packet detection
+- Phone to ESP32 over Bluetooth Classic SPP or BLE UART
+
+## Command protocol
+The app sends one ASCII line per command and the firmware answers with a single line starting with OK, ACK or ERR.
+
+- `STATUS` – firmware and radio state
+- `SET_FREQUENCY 433920000` – centre frequency in Hz
+- `SEND_RAW A1B2C3D4` – raw payload in hexadecimal
+- `RECORD_IR_START` – arm the IR receiver
+- `PLAY_IR` – replay the captured IR pattern
+- `PING` – link check
+
+## Pairing
+1. Power the bridge and pair it in the phone Bluetooth settings.
+2. Open **Bridge console** and tap the device in the list.
+3. Send `STATUS` and confirm an answer appears in the console.
+
+> Transmitting is regulated. Verify the frequency, power and duty cycle allowed in your country before sending anything.

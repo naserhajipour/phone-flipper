@@ -1,23 +1,29 @@
-# Project-wide .gitignore
-
-*.iml
-.gradle
+# Build output
+build/
+**/build/
+.gradle/
 /local.properties
-/.idea
-/.vscode
-.DS_Store
-/build
-**/build
 /captures
 .externalNativeBuild
 .cxx
+
+# IDE
+*.iml
+/.idea
+/.vscode
+.DS_Store
+
+# Packaging leftovers
 *.class
-*.apk
-*.ap_
 *.dex
-*.jar
+*.ap_
 *.war
 *.ear
 *.zip
 *.tar.gz
 *.tgz
+*.apk
+release/*.apk
+
+# The Gradle wrapper JAR is intentionally tracked.
+!gradle/wrapper/gradle-wrapper.jar

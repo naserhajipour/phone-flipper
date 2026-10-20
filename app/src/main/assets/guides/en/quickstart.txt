@@ -1,0 +1,25 @@
+# Quick start
+
+Flipper One turns a stock Android phone into a field toolkit. Nothing is uploaded: the app has no INTERNET permission at all.
+
+## 1. Read the capability report
+Open **Capability report** first. It scans twelve subsystems and marks each one:
+
+- **Native** – the phone does the job by itself.
+- **Bridge** – an external module is required.
+- **Absent** – the hardware is not present.
+
+## 2. Explore the labs
+- **Sensor lab** – magnetic field, motion, compass, light, proximity, pressure.
+- **Audio lab** – a live 4096-point FFT from 40 Hz to 20 kHz.
+- **NFC reader** – UID, technology list and NDEF payloads.
+- **Lens finder** – reflection sweep for hidden optics.
+- **Bridge console** – line commands to an ESP32 or HC-05.
+
+## 3. Calibrate expectations
+Every reading is a phone-grade measurement. Treat values as indicators, not certified data.
+
+> If a tool reports "bridge required", the phone genuinely lacks that hardware. No app can transmit Sub-GHz radio without a radio module.
+
+## 4. Share evidence
+The report screen exports a readable text file and a structured JSON file through the Android share sheet. Both are generated on the device.

@@ -1,76 +1,59 @@
-# IR & RF recording and replay guide (English + Persian)
+# IR and RF recording and replay (English + Persian)
 
-## Overview
-This guide explains how to legally record and replay simple IR and RF remote signals for your own devices using the Phone Flipper project.
-
-IMPORTANT: Only record and replay signals for devices you own or have explicit permission to test. Do not attempt to capture or replay signals from devices you do not own (e.g., car keyfobs, garage remotes of others, security systems).
+Legal first: record and replay signals only for devices you own or have explicit permission to test.
 
 ---
 
-## IR recording (Phone + HC-05 + Arduino Mega)
+## Recording IR (phone + HC-05 + Arduino Mega)
 
-1) Hardware
-- IR receiver (e.g., TSOP38238) connected to Arduino Mega pin 7
-- IR transmitter (IR LED with transistor driver) connected to pin 3
-- HC-05 paired with phone and connected to Mega Serial1 (RX1/TX1)
-- Optional LCD 2x16 to show status
+1. **Hardware** – TSOP38238 receiver on Mega pin 7, IR LED with transistor driver on pin 3,
+   HC-05 on `Serial1`, optional 2×16 LCD.
+2. **Flash** – upload `esp32-firmware/ir_record_play_mega.ino`.
+3. **Pair** – pair the HC-05 with the phone.
+4. **Record** – open **Bridge console**, connect to the module and send `RECORD_IR_START`.
+   Point the original remote at the receiver and press a button; the firmware answers with
+   `IR_REC_DONE`.
+5. **Replay** – send `PLAY_IR`. The Arduino reproduces the captured timing through the IR LED.
 
-2) Flash the sketch
-- Upload esp32-firmware/ir_record_play_mega.ino to Arduino Mega
-
-3) Steps to record
-- Pair HC-05 with phone
-- In the Phone Flipper app, connect to HC-05 (enter BT MAC in Chat screen)
-- In the Chat screen send the command via Bluetooth: RECORD_IR_START (you can also use the UI 'Record IR' button)
-- Point the original remote to the IR receiver and press the button
-- The Arduino will capture the raw timings and respond with IR_REC_DONE
-
-4) Steps to playback
-- From the app send PLAY_IR (or press 'Play IR')
-- Arduino plays back the recorded pattern through the IR LED
-
-5) Notes
-- Timing-sensitive protocols need accurate drivers and hardware; this approach is good for most consumer remotes.
+Timing-sensitive protocols need a stable driver; this approach is fine for most consumer remotes.
 
 ---
 
-## RF recording (CC1101)
+## Recording RF (CC1101)
 
-1) Hardware
-- CC1101 module connected to an MCU (Arduino/ESP32) via SPI
-- Antenna and 3.3V power
+1. **Hardware** – CC1101 on SPI, 3.3 V supply and a matched antenna for the target band.
+2. **Flash** – `esp32-firmware/cc1101_receive_example.ino` to capture, or integrate the same code
+   into the SPP bridge firmware.
+3. **Capture** – put the radio in RX mode and press remote buttons near it; packets appear as hex
+   lines on the serial console.
+4. **Replay** – send `SEND_RAW <hex>` from the app. The bridge transmits the payload.
 
-2) Flash the sketch
-- Upload esp32-firmware/cc1101_receive_example.ino to the MCU
-
-3) Steps to capture
-- Put CC1101 into RX mode and observe serial logs
-- Press remote buttons near CC1101; received packets show as hex lines
-
-4) Replay
-- Use esp32-firmware/cc1101_send_example.ino (or integrate into your bridge firmware) and send SEND_RAW <hex> commands to transmit captured payloads
-
-5) Legal warning
-- Many RF remote systems (especially car remotes and security sensors) use rolling codes or encryption; simply replaying captured packets may not work and can be illegal.
+Many RF remotes use rolling codes or encryption; replaying captured packets will not work and may be
+illegal.
 
 ---
 
-## Persian (خلاصه فارسی)
+## خلاصهٔ فارسی
 
-این راهنما نشان می‌دهد چگونه به‌صورت قانونی سیگنال‌های ساده مادون‌قرمز و RF را ضبط و پخش کنید.
+این راهنما نشان می‌دهد چگونه به‌صورت قانونی سیگنال‌های سادهٔ مادون قرمز و RF را ضبط و پخش کنید.
 
 مهم: فقط برای دستگاه‌هایی که مالک آن‌ها هستید و مجوز دارید اقدام کنید.
 
-مراحل IR:
-1) سخت‌افزار: گیرنده IR به پین 7 آردوینو، فرستنده IR به پین 3
-2) آپلود اسکچ ir_record_play_mega.ino
-3) جفت‌سازی HC-05 و گوشی
-4) در اپ دکمه RECORD_IR_START را بزنید، سپس با ریموت اصلی دکمه را فشار دهید
-5) برای پخش، PLAY_IR را بفرستید
+### مراحل IR
 
-مراحل RF با CC1101:
-1) CC1101 را به SPI وصل کنید
-2) اسکچ cc1101_receive_example.ino را آپلود کنید
-3) دکمه‌ها را بزنید و خروجی hex را در سریال ببینید
-4) برای ارسال از cc1101_send_example.ino استفاده کنید
+۱. سخت‌افزار: گیرندهٔ IR به پین ۷ آردوینو، فرستندهٔ IR به پین ۳، HC-05 به `Serial1`.
+۲. اسکچ `ir_record_play_mega.ino` را آپلود کنید.
+۳. HC-05 را با گوشی جفت کنید.
+۴. در برنامه **کنسول پل** را باز کنید، به ماژول وصل شوید و `RECORD_IR_START` را بفرستید؛ سپس با
+   ریموت اصلی دکمه را فشار دهید.
+۵. برای پخش، `PLAY_IR` را بفرستید.
 
+### مراحل RF با CC1101
+
+۱. CC1101 را روی SPI وصل کنید و آنتن مناسب باند را ببندید.
+۲. اسکچ `cc1101_receive_example.ino` را آپلود کنید.
+۳. دکمه‌ها را نزدیک ماژول فشار دهید و خروجی hex را در سریال ببینید.
+۴. برای ارسال، از فرمان `SEND_RAW <hex>` در کنسول استفاده کنید.
+
+بسیاری از ریموت‌های RF از کد غلتان یا رمزنگاری استفاده می‌کنند؛ بازپخش بسته‌های ضبط‌شده کار
+نمی‌کند و می‌تواند غیرقانونی باشد.

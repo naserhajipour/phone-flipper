@@ -1,42 +1,54 @@
-# Hardware guide: connecting the phone to external radio hardware
+# Hardware guide: phone + radio bridge
 
-This project is designed to support the realistic architecture: the phone acts as the controller and UI layer, while a separate radio bridge handles Sub-GHz transmission.
+The phone is the controller and the screen; a microcontroller does the radio work.
 
-Recommended hardware
-- ESP32 development board
-- CC1101 radio module (315/433/868/915 MHz depending on target region)
-- 3.3V regulator or stable supply if needed
-- Wiring / headers / soldering tools
-- Optional USB-UART adapter for programming
+## Recommended hardware
 
-ESP32 + CC1101 wiring concept
-- ESP32 SPI pins to CC1101 SPI pins
-- GDO0/GDO2 from CC1101 to ESP32 GPIO inputs for interrupt or packet detection
-- 3.3V to CC1101 VCC
-- GND proper common ground
-- Add decoupling capacitors near the radio module if needed
+| Part | Purpose |
+|---|---|
+| ESP32 dev board | Bluetooth SPP/BLE + command parser |
+| CC1101 module | Sub-GHz transmit/receive for 315/433/868/915 MHz |
+| 3.3 V regulator, decoupling caps | Stable radio supply |
+| IR LED + NPN transistor + resistor | Infrared output for phones without an emitter |
+| TSOP38238 receiver | IR capture |
 
-Phone to radio bridge connection options
-- BLE: simplest wireless option for end users
-- USB-OTG: more direct and reliable when working with a USB connection on supported phones
+## Wiring concept
 
-BLE flow
-- ESP32 exposes a UART-like BLE service
-- Android app connects to the BLE device
-- App sends commands such as:
-  - `SET_FREQUENCY 433920000`
-  - `SEND_RAW <hex payload>`
-  - `STATUS`
-- ESP32 forwards to CC1101 or routes to the supported hardware
+```
+ESP32                CC1101
+GPIO18  ── SCK  ───►  SCLK
+GPIO23  ── MOSI ───►  SI
+GPIO19  ── MISO ◄───  SO
+GPIO5   ── CSN  ───►  CSN
+GPIO2   ◄── GDO0 ────  GDO0
+3V3     ───────────►  VCC
+GND     ───────────►  GND
+```
 
-USB-OTG flow
-- Connect ESP32 over USB serial to the phone using OTG adaptor
-- Use Android USB host APIs and serial library to read/write bytes
-- The app sends command frames to the bridge and receives status back
+Keep SPI leads short, add 100 nF close to the module and use a proper antenna for the target band.
 
-Important practical rules
-- Do not assume a phone can send Sub-GHz RF directly.
-- Confirm your target frequencies and local regulations before transmitting.
-- Use an external module when your workflow requires 315/433/868/915 MHz transmissions.
+## Pairing with the app
 
-This project will aim to support both BLE and USB-OTG bridge interfaces, but BLE is the best first default because it is simpler for phone users.
+1. Power the bridge; it advertises as `ESP32_PhoneFlipper` (SPP example).
+2. Pair it in system Bluetooth settings.
+3. Open **Bridge console**, grant *Nearby devices* on Android 12+, and tap the device.
+
+## Line protocol
+
+One ASCII command per line, one reply line per command:
+
+| Command | Meaning | Example reply |
+|---|---|---|
+| `STATUS` | Firmware + radio state | `OK: bridge ready` |
+| `SET_FREQUENCY <hz>` | Centre frequency | `OK: frequency=433920000` |
+| `SEND_RAW <hex>` | Transmit a raw payload | `OK: queued 4 bytes` |
+| `RECORD_IR_START` | Arm the IR receiver | `OK: listening` |
+| `PLAY_IR` | Replay captured IR timing | `OK: playing 68 edges` |
+| `PING` | Link check | `ACK:PING` |
+
+Errors use the `ERR:` prefix; the console prints them verbatim.
+
+## Regulatory note
+
+Transmitting is regulated. Confirm the allowed frequency, power and duty cycle in your country
+before sending anything, and only operate on equipment you own or are authorised to test.

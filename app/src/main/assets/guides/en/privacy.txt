@@ -1,0 +1,21 @@
+# Privacy
+
+Flipper One is built to be verifiable.
+
+## What the app never does
+- No INTERNET permission, therefore no uploads, no ads, no telemetry.
+- No accounts, no identifiers, no crash reporting.
+- No background services.
+
+## What stays on the device
+- Preferences and the NFC scan history live in the app's private storage.
+- Reports are written to the app cache only when you export them.
+- Camera frames and audio buffers exist in memory and are discarded immediately.
+
+## What you control
+- **Settings → Local data** clears the NFC history or resets everything.
+- **Settings → Language** switches between English and Persian instantly.
+- Sharing a report is always an explicit action through the Android share sheet.
+
+## Permissions
+Camera, microphone, NFC, Bluetooth and vibration are requested only when the matching tool is opened.
