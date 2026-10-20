@@ -48,7 +48,7 @@ public class NfcActivity extends BaseActivity {
     protected void onCreateScreen(Bundle savedInstanceState) {
         adapter = NfcAdapter.getDefaultAdapter(this);
         content = installScreen(R.string.title_nfc, R.string.subtitle_nfc, true);
-        addAction(IconDrawable.TRASH, new Runnable() {
+        addAction(IconDrawable.TRASH, R.string.data_clear_nfc, new Runnable() {
             @Override
             public void run() {
                 clearHistory();

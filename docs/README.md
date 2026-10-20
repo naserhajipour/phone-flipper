@@ -7,6 +7,7 @@
 | [building.md](building.md) | Gradle and headless build paths, CI, troubleshooting |
 | [privacy.md](privacy.md) | What is stored, permissions, how to verify the offline claims |
 | [testing.md](testing.md) | Manual acceptance checklist |
+| [store-listing.md](store-listing.md) | Ready-to-publish store metadata (EN/FA) |
 | [hardware-guide.md](hardware-guide.md) / [hardware-guide-farsi.md](hardware-guide-farsi.md) | ESP32 + CC1101 bridge, wiring and protocol |
 | [hardware_detection.md](hardware_detection.md) | What each capability check means (Persian) |
 | [ir_rf_recording.md](ir_rf_recording.md) | Recording and replaying IR and RF signals legally |

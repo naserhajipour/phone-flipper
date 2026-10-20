@@ -66,6 +66,7 @@
     <string name="action_stop_capture">توقف ضبط</string>
     <string name="toast_copied">در حافظه کپی شد</string>
     <string name="error_export">ساخت فایل گزارش ممکن نشد</string>
+    <string name="error_share">برنامه‌ای برای دریافت گزارش پیدا نشد</string>
     <string name="share_via">اشتراک‌گذاری با</string>
 
     <string name="status_native">داخلی</string>

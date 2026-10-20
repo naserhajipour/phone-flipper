@@ -16,6 +16,7 @@
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:alertDialogTheme">@style/Theme.FlipperOne.Dialog</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:forceDarkAllowed">false</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
 

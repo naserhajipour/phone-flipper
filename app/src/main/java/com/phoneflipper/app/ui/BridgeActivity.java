@@ -89,7 +89,7 @@ public class BridgeActivity extends BaseActivity {
         adapter = bm == null ? null : bm.getAdapter();
 
         LinearLayout content = installScreen(R.string.title_bridge, R.string.subtitle_bridge, true);
-        addAction(IconDrawable.TRASH, new Runnable() {
+        addAction(IconDrawable.TRASH, R.string.section_console, new Runnable() {
             @Override
             public void run() {
                 logLines.clear();

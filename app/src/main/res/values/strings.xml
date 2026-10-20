@@ -66,6 +66,7 @@
     <string name="action_stop_capture">Stop capture</string>
     <string name="toast_copied">Copied to clipboard</string>
     <string name="error_export">Could not create the report file</string>
+    <string name="error_share">No app available to receive the report</string>
     <string name="share_via">Share via</string>
 
     <string name="status_native">Native</string>

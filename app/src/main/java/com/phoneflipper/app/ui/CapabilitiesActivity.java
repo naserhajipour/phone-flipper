@@ -38,7 +38,7 @@ public class CapabilitiesActivity extends BaseActivity {
     protected void onCreateScreen(Bundle savedInstanceState) {
         caps = Capabilities.scan(this);
         content = installScreen(R.string.title_capabilities, R.string.subtitle_capabilities, true);
-        addAction(IconDrawable.SHARE, new Runnable() {
+        addAction(IconDrawable.SHARE, R.string.action_share_report, new Runnable() {
             @Override
             public void run() {
                 shareText();
@@ -235,7 +235,7 @@ public class CapabilitiesActivity extends BaseActivity {
         send.putExtra(Intent.EXTRA_TEXT, text);
         send.putExtra(Intent.EXTRA_STREAM, uri);
         send.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(send, getString(R.string.share_via)));
+        launchShare(send);
     }
 
     private void shareJson() {
@@ -252,7 +252,15 @@ public class CapabilitiesActivity extends BaseActivity {
         send.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.report_title));
         send.putExtra(Intent.EXTRA_STREAM, uri);
         send.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(send, getString(R.string.share_via)));
+        launchShare(send);
+    }
+
+    private void launchShare(Intent send) {
+        try {
+            startActivity(Intent.createChooser(send, getString(R.string.share_via)));
+        } catch (Exception e) {
+            Toast.makeText(this, R.string.error_share, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void copyJson() {

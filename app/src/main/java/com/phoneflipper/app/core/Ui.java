@@ -159,7 +159,7 @@ public final class Ui {
         l.setClickable(true);
         l.setFocusable(true);
         l.setBackground(ripple(c, rounded(c, Palette.SURFACE, 20, Palette.STROKE_SOFT, 1), Palette.RIPPLE));
-        return l;
+        return withFeedback(l);
     }
 
     // ------------------------------------------------------------------ text
@@ -238,7 +238,7 @@ public final class Ui {
         Drawable content = rounded(c, primary ? Palette.PRIMARY : Palette.SURFACE_ALT, 14,
                 primary ? Color.TRANSPARENT : Palette.STROKE, 1);
         b.setBackground(ripple(c, content, primary ? 0x33000000 : Palette.RIPPLE));
-        return b;
+        return withFeedback(b);
     }
 
     public static TextView outlineButton(Context c, CharSequence label) {
@@ -249,7 +249,7 @@ public final class Ui {
         b.setMinHeight(dp(c, 48));
         padding(b, 18, 12, 18, 12);
         b.setBackground(ripple(c, rounded(c, Color.TRANSPARENT, 14, Palette.PRIMARY_DIM, 1), Palette.GLOW_PRIMARY));
-        return b;
+        return withFeedback(b);
     }
 
     public static android.widget.ImageView iconButton(Context c, int icon, int color) {
@@ -265,7 +265,7 @@ public final class Ui {
         int pad = dp(c, 11);
         iv.setPadding(pad, pad, pad, pad);
         iv.setBackground(ripple(c, rounded(c, Palette.SURFACE_ALT, 14, Palette.STROKE_SOFT, 1), Palette.RIPPLE));
-        return iv;
+        return withFeedback(iv);
     }
 
     /** Bare icon, no background — used inside cards and lists. */
@@ -313,7 +313,7 @@ public final class Ui {
     }
 
     public static void haptic(View v) {
-        if (v == null) {
+        if (v == null || !Prefs.haptics(v.getContext())) {
             return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -321,6 +321,20 @@ public final class Ui {
         } else {
             v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
         }
+    }
+
+    /** Attaches the shared tap feedback to a custom-built button surface. */
+    public static <T extends View> T withFeedback(final T view) {
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, android.view.MotionEvent event) {
+                if (event.getActionMasked() == android.view.MotionEvent.ACTION_DOWN) {
+                    Ui.haptic(v);
+                }
+                return false;
+            }
+        });
+        return view;
     }
 
     public static void setVisible(View v, boolean visible) {

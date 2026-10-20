@@ -98,12 +98,18 @@ def main():
         draw_mark(foreground, scale=0.44)
         foreground.save(os.path.join(folder, "ic_launcher_foreground.png"))
 
+        # Themed icon layer (Android 13+): white glyph on transparency.
+        mono = Image.new("RGBA", (fg, fg), (0, 0, 0, 0))
+        draw_mark(mono, scale=0.44, color=(255, 255, 255))
+        mono.save(os.path.join(folder, "ic_launcher_monochrome.png"))
+
     anydpi = os.path.join(RES, "mipmap-anydpi-v26")
     os.makedirs(anydpi, exist_ok=True)
     adaptive = """<?xml version="1.0" encoding="utf-8"?>
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <background android:drawable="@color/ic_launcher_background" />
     <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+    <monochrome android:drawable="@mipmap/ic_launcher_monochrome" />
 </adaptive-icon>
 """
     for name in ("ic_launcher.xml", "ic_launcher_round.xml"):

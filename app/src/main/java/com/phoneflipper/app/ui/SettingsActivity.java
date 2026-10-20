@@ -161,9 +161,8 @@ public class SettingsActivity extends BaseActivity {
             public void onClick(View v) {
                 Prefs.setSafetyAccepted(SettingsActivity.this, false);
                 Intent i = new Intent(SettingsActivity.this, DashboardActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
-                finish();
             }
         });
         Ui.add(card, review, 0, 18, 0, 0);
@@ -225,9 +224,8 @@ public class SettingsActivity extends BaseActivity {
 
     private void restartApp() {
         Intent i = new Intent(this, DashboardActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
-        finishAffinity();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 

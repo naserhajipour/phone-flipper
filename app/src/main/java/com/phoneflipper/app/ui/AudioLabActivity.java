@@ -62,7 +62,7 @@ public class AudioLabActivity extends BaseActivity {
 
         LinearLayout content = installScreen(R.string.title_audio_lab,
                 R.string.subtitle_audio_lab, true);
-        addAction(IconDrawable.INFO, new Runnable() {
+        addAction(IconDrawable.INFO, R.string.audio_privacy_note, new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(AudioLabActivity.this, R.string.audio_privacy_note,

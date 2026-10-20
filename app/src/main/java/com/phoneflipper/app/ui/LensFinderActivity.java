@@ -332,7 +332,12 @@ public class LensFinderActivity extends BaseActivity {
                 @Override
                 public void onOpened(CameraDevice cam) {
                     camera = cam;
-                    startPreview();
+                    main.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            startPreview();
+                        }
+                    });
                 }
 
                 @Override
@@ -597,6 +602,14 @@ public class LensFinderActivity extends BaseActivity {
     }
 
     // ------------------------------------------------------------------ lifecycle
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (textureView != null && textureView.isAvailable() && camera == null && hasPermission()) {
+            openCamera(textureView.getWidth(), textureView.getHeight());
+        }
+    }
 
     @Override
     protected void onPause() {

@@ -43,7 +43,8 @@ jobs:
           if [ ! -x "$SDKMANAGER" ]; then SDKMANAGER="$(command -v sdkmanager)"; fi
           yes | "$SDKMANAGER" --licenses > /dev/null || true
           "$SDKMANAGER" "platforms;${{ env.ANDROID_PLATFORM }}" "build-tools;${{ env.BUILD_TOOLS }}" > /dev/null
-          "$SDKMANAGER" --list_installed | head -20
+          echo "Platform: $ANDROID_HOME/platforms/${{ env.ANDROID_PLATFORM }}"
+          echo "Build tools: $ANDROID_HOME/build-tools/${{ env.BUILD_TOOLS }}"
 
       - name: Build signed release APK
         run: |
@@ -72,7 +73,11 @@ jobs:
           retention-days: 90
 
       - name: Publish rolling release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/arena/0b6c4b45-phone-flipper'
+        # Manual runs, tags and the default branch keep `apk-latest` current.
+        if: >-
+          github.event_name == 'workflow_dispatch' ||
+          startsWith(github.ref, 'refs/tags/v') ||
+          github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

@@ -171,8 +171,9 @@ public abstract class BaseActivity extends Activity {
         return shell;
     }
 
-    protected ImageView addAction(int icon, final Runnable action) {
+    protected ImageView addAction(int icon, int labelRes, final Runnable action) {
         ImageView iv = Ui.iconButton(this, icon, Palette.TEXT_DIM);
+        iv.setContentDescription(getString(labelRes));
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
