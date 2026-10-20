@@ -53,6 +53,9 @@ public class AudioLabActivity extends BaseActivity {
     private final double[] im = new double[FFT_SIZE];
     private final float[] mags = new float[FFT_SIZE / 2];
     private final short[] ring = new short[FFT_SIZE];
+    private final float[][] magsOut = {new float[FFT_SIZE / 2], new float[FFT_SIZE / 2]};
+    private final short[][] waveOut = {new short[FFT_SIZE], new short[FFT_SIZE]};
+    private int bufferSlot;
     private long lastPost;
     private float smoothedDb = -90;
 
@@ -268,7 +271,8 @@ public class AudioLabActivity extends BaseActivity {
         rms = Math.sqrt(rms / FFT_SIZE);
         Fft.transform(re, im);
 
-        final float[] copy = new float[FFT_SIZE / 2];
+        final float[] copy = magsOut[bufferSlot];
+        bufferSlot = 1 - bufferSlot;
         int peakBin = 1;
         float peakMag = 0;
         for (int i = 1; i < FFT_SIZE / 2; i++) {
@@ -281,7 +285,7 @@ public class AudioLabActivity extends BaseActivity {
         }
         final float peakHz = peakBin * (float) SAMPLE_RATE / FFT_SIZE;
         final float db = (float) (20 * Math.log10(Math.max(1e-6, rms / 32768.0)));
-        final short[] waveCopy = new short[FFT_SIZE];
+        final short[] waveCopy = waveOut[bufferSlot == 0 ? 1 : 0];
         System.arraycopy(ring, 0, waveCopy, 0, FFT_SIZE);
 
         long now = System.currentTimeMillis();
@@ -321,14 +325,9 @@ public class AudioLabActivity extends BaseActivity {
 
     private void stopCapture() {
         capturing = false;
-        if (worker != null) {
-            try {
-                worker.join(400);
-            } catch (InterruptedException ignored) {
-                Thread.currentThread().interrupt();
-            }
-            worker = null;
-        }
+        // The capture thread owns the AudioRecord and releases it in its own
+        // finally block: joining here would stall the UI thread on rec.read().
+        worker = null;
         toggle.setText(R.string.action_start_capture);
         statusPill.setText(R.string.status_stopped);
         statusPill.setTextColor(Palette.TEXT_MUTED);

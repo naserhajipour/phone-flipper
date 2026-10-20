@@ -76,6 +76,9 @@ public class LensFinderActivity extends BaseActivity {
     private Size analysisSize = new Size(640, 480);
     private boolean torch;
     private boolean strobe;
+    private boolean opening;
+    /** Bumped on every close so late camera callbacks cannot revive a closed device. */
+    private int generation;
     private float sensitivity = 0.55f;
     private long lastAnalysis;
     private final float[] previewMatrix = new float[9];
@@ -293,9 +296,10 @@ public class LensFinderActivity extends BaseActivity {
     }
 
     private void openCamera(int width, int height) {
-        if (camera != null || cameraId == null) {
+        if (camera != null || opening || cameraId == null) {
             return;
         }
+        opening = true;
         if (background == null) {
             background = new HandlerThread("lens-finder");
             background.start();
@@ -328,10 +332,16 @@ public class LensFinderActivity extends BaseActivity {
                 }
             }, handler);
 
+            final int gen = generation;
             manager.openCamera(cameraId, new CameraDevice.StateCallback() {
                 @Override
                 public void onOpened(CameraDevice cam) {
+                    if (gen != generation) {
+                        cam.close();
+                        return;
+                    }
                     camera = cam;
+                    opening = false;
                     main.post(new Runnable() {
                         @Override
                         public void run() {
@@ -343,20 +353,37 @@ public class LensFinderActivity extends BaseActivity {
                 @Override
                 public void onDisconnected(CameraDevice cam) {
                     cam.close();
-                    camera = null;
+                    if (gen == generation) {
+                        camera = null;
+                    }
+                    opening = false;
                 }
 
                 @Override
                 public void onError(CameraDevice cam, int error) {
                     cam.close();
-                    camera = null;
+                    if (gen == generation) {
+                        camera = null;
+                        main.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (hintView != null) {
+                                    hintView.setText(R.string.lens_error);
+                                }
+                            }
+                        });
+                    }
+                    opening = false;
                 }
             }, handler);
         } catch (SecurityException | CameraAccessException e) {
+            opening = false;
             main.post(new Runnable() {
                 @Override
                 public void run() {
-                    hintView.setText(R.string.lens_error);
+                    if (hintView != null) {
+                        hintView.setText(R.string.lens_error);
+                    }
                 }
             });
         }
@@ -572,6 +599,9 @@ public class LensFinderActivity extends BaseActivity {
     // ------------------------------------------------------------------ torch
 
     private void setTorch(boolean on) {
+        if (on == torch) {
+            return;
+        }
         torch = on;
         try {
             manager.setTorchMode(cameraId, on);
@@ -621,6 +651,8 @@ public class LensFinderActivity extends BaseActivity {
     }
 
     private void closeCamera() {
+        generation++;
+        opening = false;
         if (session != null) {
             try {
                 session.close();
