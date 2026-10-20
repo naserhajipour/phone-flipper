@@ -92,8 +92,12 @@ def main():
         draw_mark(round_icon, scale=0.58)
         round_icon.save(os.path.join(folder, "ic_launcher_round.png"))
 
-        # Adaptive foreground: 108dp canvas, mark in the 66dp safe zone.
+        # Adaptive layers: 108dp canvas. The background carries the brand
+        # gradient, the foreground keeps the dark bolt inside the 66dp safe zone.
         fg = int(108 * factor)
+        background = gradient_square(fg, radius=0)
+        background.save(os.path.join(folder, "ic_launcher_background.png"))
+
         foreground = Image.new("RGBA", (fg, fg), (0, 0, 0, 0))
         draw_mark(foreground, scale=0.44)
         foreground.save(os.path.join(folder, "ic_launcher_foreground.png"))
@@ -107,7 +111,7 @@ def main():
     os.makedirs(anydpi, exist_ok=True)
     adaptive = """<?xml version="1.0" encoding="utf-8"?>
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-    <background android:drawable="@color/ic_launcher_background" />
+    <background android:drawable="@mipmap/ic_launcher_background" />
     <foreground android:drawable="@mipmap/ic_launcher_foreground" />
     <monochrome android:drawable="@mipmap/ic_launcher_monochrome" />
 </adaptive-icon>
@@ -121,12 +125,23 @@ def main():
         fh.write('<?xml version="1.0" encoding="utf-8"?>\n<resources>\n'
                  '    <color name="ic_launcher_background">#070D18</color>\n</resources>\n')
 
-    # Store icon preview for docs
+    # Documentation preview: legacy icon + adaptive icon as a launcher mask.
     docs = os.path.join(ROOT, "docs", "assets")
     os.makedirs(docs, exist_ok=True)
     preview = gradient_square(512, radius=int(512 * 0.23))
     draw_mark(preview, scale=0.62)
     preview.save(os.path.join(docs, "icon-preview.png"))
+
+    adaptive = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
+    bg = gradient_square(512, radius=0)
+    fg = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
+    draw_mark(fg, scale=0.44 * 512 / 432.0)
+    adaptive.alpha_composite(bg)
+    adaptive.alpha_composite(fg)
+    mask = Image.new("L", (512, 512), 0)
+    ImageDraw.Draw(mask).ellipse([0, 0, 511, 511], fill=255)
+    adaptive.putalpha(mask)
+    adaptive.save(os.path.join(docs, "icon-adaptive-preview.png"))
     print("icons written")
 
 
