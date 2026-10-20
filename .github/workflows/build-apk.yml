@@ -72,8 +72,8 @@ jobs:
           if-no-files-found: error
           retention-days: 90
 
-      - name: Publish rolling release
-        # Manual runs, tags and the default branch keep `apk-latest` current.
+      - name: Publish release
+        # Manual runs, tags and the default branch keep the downloads current.
         if: >-
           github.event_name == 'workflow_dispatch' ||
           startsWith(github.ref, 'refs/tags/v') ||
@@ -83,10 +83,25 @@ jobs:
         run: |
           APK=$(ls build/outputs/*.apk | head -1)
           cp "$APK" FlipperOne.apk
+
+          # Versioned release with the full notes when a v* tag is pushed.
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            TAG="${GITHUB_REF#refs/tags/}"
+            if gh release view "$TAG" > /dev/null 2>&1; then
+              gh release upload "$TAG" FlipperOne.apk --clobber
+            else
+              gh release create "$TAG" FlipperOne.apk \
+                --title "Flipper One $TAG" \
+                --notes-file README_RELEASE_NOTES.md
+            fi
+          fi
+
+          # Rolling release: stable download URL for the newest build.
           if gh release view apk-latest > /dev/null 2>&1; then
             gh release upload apk-latest FlipperOne.apk --clobber
           else
             gh release create apk-latest FlipperOne.apk \
               --title "Flipper One — latest APK" \
-              --notes "Signed, offline release build. minSdk 24, targetSdk 35. No INTERNET permission."
+              --notes "Signed, offline release build. minSdk 24, targetSdk 35. No INTERNET permission." \
+              --latest=false
           fi
