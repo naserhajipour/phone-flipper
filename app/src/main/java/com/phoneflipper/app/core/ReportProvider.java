@@ -47,7 +47,7 @@ public class ReportProvider extends ContentProvider {
 
     @Override
     public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
-        if (!"r".equals(mode)) {
+        if (!"r".equals(mode) && !"rt".equals(mode)) {
             throw new FileNotFoundException("read only");
         }
         File f = fileFor(uri);
@@ -60,13 +60,13 @@ public class ReportProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        File f = fileFor(uri);
-        if (f == null || !f.exists()) {
-            return null;
-        }
         String[] cols = projection != null ? projection
                 : new String[]{OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE};
         MatrixCursor cursor = new MatrixCursor(cols);
+        File f = fileFor(uri);
+        if (f == null || !f.exists()) {
+            return cursor;
+        }
         Object[] row = new Object[cols.length];
         for (int i = 0; i < cols.length; i++) {
             if (OpenableColumns.DISPLAY_NAME.equals(cols[i])) {
@@ -83,7 +83,8 @@ public class ReportProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        return "text/plain";
+        String name = uri.getLastPathSegment();
+        return name != null && name.endsWith(".json") ? "application/json" : "text/plain";
     }
 
     @Override

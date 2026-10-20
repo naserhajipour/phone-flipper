@@ -133,8 +133,12 @@ if [ -n "${KEYSTORE:-}" ] && [ -f "$KEYSTORE" ]; then
     --ks "$KEYSTORE" --ks-key-alias "${KEY_ALIAS:-flipperone}" \
     --ks-pass "pass:${KEYSTORE_PASS:-flipperone2026}" \
     --key-pass "pass:${KEY_PASS:-${KEYSTORE_PASS:-flipperone2026}}" \
+    --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true \
     --out "$OUT/$NAME" "$BUILD/aligned.apk"
-  "$JAVA" -jar "$APKSIGNER_JAR" verify --print-certs "$OUT/$NAME" | head -4
+  # Write the verification report first: piping it into head can raise SIGPIPE
+  # under `set -o pipefail` and fail an otherwise successful build.
+  "$JAVA" -jar "$APKSIGNER_JAR" verify --print-certs "$OUT/$NAME" > "$BUILD/verify.txt"
+  grep -E "certificate (DN|SHA-256)" "$BUILD/verify.txt" || true
 else
   cp "$BUILD/aligned.apk" "$OUT/$NAME"
   echo "WARNING: unsigned APK (no KEYSTORE provided)"

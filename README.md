@@ -25,7 +25,10 @@ pipeline.
 
 ## Download
 
-* **Latest signed APK** – open the [**apk-latest** release](../../releases/tag/apk-latest) and download `FlipperOne.apk`.
+* **This release** – [**v1.0.0**](../../releases/tag/v1.0.0) carries the signed `FlipperOne.apk` and the full notes.
+* **Always current** – [**apk-latest**](../../releases/tag/apk-latest) is refreshed by every green build.
+* **In the repository** – [`release/FlipperOne-1.0.0.apk`](release/FlipperOne-1.0.0.apk) with its
+  [checksum and install notes](release/README.md).
 * **Per-commit builds** – every workflow run stores `FlipperOne-<version>-release.apk` as an artifact.
 
 Requirements: Android 7.0 (API 24) or newer. No Google services required. All hardware features are
