@@ -76,6 +76,12 @@
             android:text="خواندن تگ NFC" />
 
         <Button
+            android:id="@+id/btnInfrared"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ریموت مادون‌قرمز" />
+
+        <Button
             android:id="@+id/btnExport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

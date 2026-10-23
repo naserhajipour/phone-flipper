@@ -4,6 +4,7 @@
 
     <!-- Permissions -->
     <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.TRANSMIT_IR" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" android:required="false" />
@@ -36,6 +37,9 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name="com.phoneflipper.app.NfcTagReaderActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.phoneflipper.app.IrRemoteActivity"
             android:exported="false" />
         <activity
             android:name="com.phoneflipper.app.MainActivity"

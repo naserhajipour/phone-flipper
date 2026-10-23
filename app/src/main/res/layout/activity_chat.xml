@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="12dp" android:orientation="vertical">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="دستیار هوشمند فلیپر همراه" android:textSize="22sp" android:textStyle="bold" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/chatRecycler"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+    <EditText android:id="@+id/inputText" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="درخواست فنی یا پروژه جدید..." />
+    <Button android:id="@+id/sendBtn" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="ارسال به دستیار" />
+</LinearLayout>
