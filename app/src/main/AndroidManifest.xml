@@ -35,6 +35,9 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name="com.phoneflipper.app.NfcTagReaderActivity"
+            android:exported="false" />
+        <activity
             android:name="com.phoneflipper.app.MainActivity"
             android:exported="true">
             <intent-filter>
