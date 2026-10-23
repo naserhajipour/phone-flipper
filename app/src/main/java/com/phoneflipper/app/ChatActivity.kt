@@ -110,23 +110,7 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    private fun adapterItemsLastAI(): String? {
-        // reflectively access adapter items (ChatAdapter uses private list)
-        // For simplicity, we extend ChatAdapter to expose last AI or track externally.
-        // Here we use a workaround by accessing the adapter via reflection (best-effort)
-        try {
-            val field = adapter.javaClass.getDeclaredField("items")
-            field.isAccessible = true
-            val items = field.get(adapter) as MutableList<ChatMessage>
-            for (i in items.size - 1 downTo 0) {
-                val it = items[i]
-                if (!it.fromUser) return it.text
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return null
-    }
+    private fun adapterItemsLastAI(): String? = adapter.lastAiMessage()
 
     override fun onDestroy() {
         super.onDestroy()
