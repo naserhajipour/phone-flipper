@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnScanCamera: Button
     private lateinit var btnSensorTrace: Button
     private lateinit var btnExport: Button
+    private lateinit var btnNfcReader: Button
 
     private val audioRequestCode = 2001
     private val cameraRequestCode = 2002
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         btnScanCamera = findViewById(R.id.btnScanCamera)
         btnSensorTrace = findViewById(R.id.btnSensorTrace)
         btnExport = findViewById(R.id.btnExport)
+        btnNfcReader = findViewById(R.id.btnNfcReader)
 
         title = getString(R.string.app_name)
 
@@ -73,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         btnScanCamera.setOnClickListener { requestCameraAndCapture() }
         btnSensorTrace.setOnClickListener { startSensorTrace() }
         btnExport.setOnClickListener { exportHardwareReport() }
+        btnNfcReader.setOnClickListener { startActivity(Intent(this, NfcTagReaderActivity::class.java)) }
 
         renderHardwareReport()
     }
