@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnExport: Button
     private lateinit var btnNfcReader: Button
     private lateinit var btnIrRemote: Button
+    private lateinit var btnMagneticRadar: Button
 
     private val audioRequestCode = 2001
     private val cameraRequestCode = 2002
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         btnExport = findViewById(R.id.btnExport)
         btnNfcReader = findViewById(R.id.btnNfcReader)
         btnIrRemote = findViewById(R.id.btnIrRemote)
+        btnMagneticRadar = findViewById(R.id.btnMagneticRadar)
 
         title = getString(R.string.app_name)
 
@@ -79,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         btnExport.setOnClickListener { exportHardwareReport() }
         btnNfcReader.setOnClickListener { startActivity(Intent(this, NfcTagReaderActivity::class.java)) }
         btnIrRemote.setOnClickListener { startActivity(Intent(this, IrRemoteActivity::class.java)) }
+        btnMagneticRadar.setOnClickListener { startActivity(Intent(this, MagneticRadarActivity::class.java)) }
 
         renderHardwareReport()
     }
