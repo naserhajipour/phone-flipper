@@ -136,12 +136,17 @@ class DeviceFeatureDetector(private val context: Context) {
             Log.w("PhoneFlipper", "Bluetooth adapter access requires runtime permission", e)
             null
         }
+        val btState = try {
+            btAdapter?.state?.toString() ?: "unavailable"
+        } catch (e: SecurityException) {
+            "permission required (Android 12+)"
+        }
 
         list.add(
             CapabilityItem(
                 name = "Bluetooth adapter",
                 supported = btAdapter != null,
-                detail = if (btAdapter != null) "Bluetooth adapter available; state = ${btAdapter.state}" else "No Bluetooth adapter discovered.",
+                detail = if (btAdapter != null) "Bluetooth adapter available; state = $btState" else "No Bluetooth adapter discovered.",
                 category = "Connectivity"
             )
         )
