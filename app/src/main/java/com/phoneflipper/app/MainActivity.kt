@@ -81,25 +81,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun renderHardwareReport() {
-        val pm = packageManager
-        val sm = getSystemService(SensorManager::class.java) as SensorManager
-        val summary = StringBuilder()
-        summary.append("Hardware report:\n")
-        summary.append("Microphone: ${pm.hasSystemFeature(PackageManager.FEATURE_MICROPHONE)}\n")
-        summary.append("Camera: ${pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)}\n")
-        summary.append("USB Host / OTG: ${pm.hasSystemFeature(PackageManager.FEATURE_USB_HOST)}\n")
-        summary.append("Headphone jack: ${hasHeadphoneJack()}\n")
-        summary.append("NFC: ${pm.hasSystemFeature(PackageManager.FEATURE_NFC)}\n")
-        summary.append("BLE: ${pm.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)}\n")
-        summary.append("IR: ${pm.hasSystemFeature(PackageManager.FEATURE_CONSUMER_IR)}\n")
-        summary.append("Accelerometer: ${sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null}\n")
-        summary.append("Gyroscope: ${sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null}\n")
-        summary.append("Magnetometer: ${sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null}\n")
-        summary.append("Light sensor: ${sm.getDefaultSensor(Sensor.TYPE_LIGHT) != null}\n")
-        summary.append("\n")
-        summary.append(getString(R.string.report_conclusion))
-
-        tvReport.text = summary.toString()
+        tvReport.text = try {
+            HardwareCapabilityReport(this).build()
+        } catch (error: Exception) {
+            "Hardware report failed: ${error.message ?: error.javaClass.simpleName}"
+        }
     }
 
     private fun hasHeadphoneJack(): Boolean {
