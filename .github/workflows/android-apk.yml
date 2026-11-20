@@ -2,6 +2,10 @@ name: Build Phone Flipper APK
 
 on:
   push:
+    branches:
+      - main
+      - "feature/**"
+  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -20,6 +24,7 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+          cache: gradle
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
