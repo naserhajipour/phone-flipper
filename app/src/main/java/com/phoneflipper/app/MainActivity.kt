@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnExport: Button
     private lateinit var btnNfcReader: Button
     private lateinit var btnAssistant: Button
+    private lateinit var btnUsbSerial: Button
 
     private val audioRequestCode = 2001
     private val cameraRequestCode = 2002
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         btnExport = findViewById(R.id.btnExport)
         btnNfcReader = findViewById(R.id.btnNfcReader)
         btnAssistant = findViewById(R.id.btnAssistant)
+        btnUsbSerial = findViewById(R.id.btnUsbSerial)
 
         title = getString(R.string.app_name)
 
@@ -79,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         btnExport.setOnClickListener { exportHardwareReport() }
         btnNfcReader.setOnClickListener { startActivity(Intent(this, NfcTagReaderActivity::class.java)) }
         btnAssistant.setOnClickListener { startActivity(Intent(this, PromptActivity::class.java)) }
+        btnUsbSerial.setOnClickListener { startActivity(Intent(this, UsbSerialActivity::class.java)) }
 
         renderHardwareReport()
     }
