@@ -76,6 +76,12 @@
             android:text="دستیار مهندسی هوشمند" />
 
         <Button
+            android:id="@+id/btnUsbSerial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="اتصال USB OTG و ماژول‌ها" />
+
+        <Button
             android:id="@+id/btnNfcReader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
