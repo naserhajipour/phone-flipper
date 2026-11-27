@@ -1,13 +1,8 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.PhoneFlipper" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:statusBarColor">@color/bg_main</item>
-        <item name="android:navigationBarColor">@color/bg_main</item>
-        <item name="android:windowBackground">@color/bg_main</item>
-        <item name="colorPrimary">@color/accent_blue</item>
-        <item name="colorSecondary">@color/accent_green</item>
-        <item name="colorSurface">@color/bg_card</item>
-        <item name="colorOnSurface">@color/text_primary</item>
-        <item name="android:textColorPrimary">@color/text_primary</item>
-        <item name="android:textColorSecondary">@color/text_secondary</item>
+<resources>
+    <style name="Theme.PhoneFlipper" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">#101827</item>
+        <item name="android:navigationBarColor">#101827</item>
+        <item name="android:windowBackground">#F5F7FA</item>
+        <item name="colorAccent">#2478D4</item>
     </style>
 </resources>
